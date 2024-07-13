@@ -1,10 +1,10 @@
-import TableCom from '@/components/table';
-import Image from 'next/image';
+'use client';
+import { TableCustom } from '@/components/table';
 
 export default function Home() {
   return (
     <>
-      <TableCom />
+      <TableCustom />
     </>
   );
 }

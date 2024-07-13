@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import { Space, Table, Tag } from 'antd';
 import type { TableProps } from 'antd';
@@ -85,11 +86,13 @@ const data: DataType[] = [
   },
 ];
 
-const TableCom = () => (
-  <Table
-    columns={columns}
-    dataSource={data}
-  />
-);
-
-export default TableCom;
+export const TableCustom = () => {
+  return (
+    <div>
+      <Table
+        columns={columns}
+        dataSource={data}
+      />
+    </div>
+  );
+};
