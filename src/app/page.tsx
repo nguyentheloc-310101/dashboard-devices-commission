@@ -1,12 +1,5 @@
-'use client';
-import { TableCustom } from '@/components/table';
-import { Button } from 'antd';
+import { redirect } from 'next/navigation';
 
-export default function Home() {
-  return (
-    <>
-      <TableCustom />
-      <Button type='primary'>test</Button>
-    </>
-  );
+export default function Page(): never {
+  redirect('/dashboard');
 }
