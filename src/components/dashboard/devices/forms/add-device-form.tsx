@@ -16,7 +16,6 @@ export const AddDeviceForm = ({ formRefCreateDevice, onCloseModal, initialValue 
     form.resetFields();
     onCloseModal();
   };
-  //   console.log(initialValue);
   const onSubmit = (value: any) => {
     const newDevice = {
       name: value.name,
@@ -31,6 +30,7 @@ export const AddDeviceForm = ({ formRefCreateDevice, onCloseModal, initialValue 
       layout="vertical"
       form={form}
       ref={formRefCreateDevice}
+      onFinish={onSubmit}
       initialValues={
         initialValue ?? {
           name: initialValue.name,

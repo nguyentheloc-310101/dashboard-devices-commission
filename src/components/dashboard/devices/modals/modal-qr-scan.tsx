@@ -23,13 +23,10 @@ export const ModalQrScan = ({ open, setOpen }: ModalScanQrProps) => {
   const [pauseScanner, setPauseScanner] = useState<boolean>(false);
   const [hasResult, setHasResult] = useState<boolean>(false);
   const [resultScan, setResultScan] = useState<any>(null);
-  // console.log(openScanner, open);
   const onHandleScanQR = (result: IDetectedBarcode[]) => {
     if (result !== null) {
       setResultScan(JSON.parse(result[0].rawValue));
       setHasResult(true);
-      // setPauseScanner(true);
-      // setOpen(false);
     }
   };
   return (

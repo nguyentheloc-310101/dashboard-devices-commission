@@ -1,6 +1,6 @@
 import { Card } from 'antd';
 
-import { HeaderDevices } from './header/header-devices';
+import { HeaderDevices } from './header';
 import { TableDevices } from './table-devices';
 
 export const DevicesRender = () => {
