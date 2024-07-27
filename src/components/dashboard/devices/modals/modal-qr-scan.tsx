@@ -24,6 +24,7 @@ export const ModalQrScan = ({ open, setOpen }: ModalScanQrProps) => {
   const [hasResult, setHasResult] = useState<boolean>(false);
   const [resultScan, setResultScan] = useState<any>(null);
   const onHandleScanQR = (result: IDetectedBarcode[]) => {
+    console.log(result);
     if (result !== null) {
       setResultScan(JSON.parse(result[0].rawValue));
       setHasResult(true);
@@ -43,9 +44,11 @@ export const ModalQrScan = ({ open, setOpen }: ModalScanQrProps) => {
         <div className="w-full flex items-center justify-center">
           <Scanner
             allowMultiple={true}
-            paused={pauseScanner}
             styles={scannerStyles}
-            onScan={(result: IDetectedBarcode[]) => onHandleScanQR(result)}
+            onScan={(result: any) => {
+              // console.log(result);
+              onHandleScanQR(result);
+            }}
           />
         </div>{' '}
       </Modal>

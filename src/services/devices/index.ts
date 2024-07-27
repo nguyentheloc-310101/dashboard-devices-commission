@@ -14,7 +14,7 @@ class DeviceServices {
     const { data, error } = await supabase.from('data_device').insert([device]).select('*');
     return { data, error };
   }
-  static async getDevices(id: string) {
+  static async getDevices(id: string | null) {
     if (!id || id == '') {
       //get all devices
       const { data, error } = await supabase.from(supabaseCollections.data_device).select('*');

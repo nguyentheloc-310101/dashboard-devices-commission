@@ -1,7 +1,8 @@
 'use client';
 
-import React from 'react';
-import { Space, Table, Tag } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { DeviceServices } from '@/services';
+import { message, Space, Table, Tag } from 'antd';
 import type { TableProps } from 'antd';
 
 interface DataType {
@@ -35,13 +36,13 @@ const columns: TableProps<DataType>['columns'] = [
   },
   {
     title: 'Feeds',
-    dataIndex: 'feeds',
-    key: 'feeds',
+    dataIndex: 'feed',
+    key: 'feed',
   },
   {
     title: 'Trigger Type',
-    dataIndex: 'trigger_type',
-    key: 'trigger_type',
+    dataIndex: 'type_trigger',
+    key: 'type_trigger',
   },
   {
     title: 'Location',
@@ -99,9 +100,21 @@ const data: DataType[] = [
 ];
 
 export const TableDevices = () => {
+  const [dataDevices, setDataDevices] = useState<any[]>([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data, error } = await DeviceServices.getDevices(null);
+      if (error) {
+        message.error(error.message);
+      }
+      console.log(data);
+      setDataDevices(data as any);
+    };
+    fetchData();
+  }, []);
   return (
     <>
-      <Table columns={columns} dataSource={data} />
+      <Table columns={columns} dataSource={dataDevices} />
     </>
   );
 };
