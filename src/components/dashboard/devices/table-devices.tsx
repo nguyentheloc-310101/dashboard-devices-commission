@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { DeviceServices } from '@/services';
-import { message, Space, Table, Tag } from 'antd';
+import { message, Space, Switch, Table, Tag } from 'antd';
 import type { TableProps } from 'antd';
 
 interface DataType {
@@ -58,44 +58,7 @@ const columns: TableProps<DataType>['columns'] = [
   {
     title: 'Action',
     key: 'action',
-    render: (_, record) => (
-      <Space size="middle">
-        <a>Delete</a>
-      </Space>
-    ),
-  },
-];
-
-const data: DataType[] = [
-  {
-    key: '1',
-    name: 'Device1',
-    value: 42,
-    type_device: 'sensor',
-    feeds: 'feed1',
-    trigger_type: 'automatic',
-    location: 'Warehouse A',
-    active: true,
-  },
-  {
-    key: '2',
-    name: 'Device2',
-    value: null,
-    type_device: 'actuator',
-    feeds: 'feed2',
-    trigger_type: 'manual',
-    location: 'Warehouse B',
-    active: false,
-  },
-  {
-    key: '3',
-    name: 'Device3',
-    value: 100,
-    type_device: 'sensor',
-    feeds: 'feed3',
-    trigger_type: 'automatic',
-    location: 'Warehouse C',
-    active: true,
+    render: (_, record) => <Switch />,
   },
 ];
 
