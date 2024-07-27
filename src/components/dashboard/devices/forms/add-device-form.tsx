@@ -1,8 +1,9 @@
-import React, { useRef } from 'react';
-import { selectLocations, selectTypeTrigger } from '@/constants';
-import { Button, Form, Input, message, Select, Switch } from 'antd';
+'use client';
 
-import { IDeviceCreate } from '@/types';
+import React, { useRef, useState } from 'react';
+import { selectLocations, selectTypeTrigger } from '@/constants';
+import { DeviceServices } from '@/services';
+import { Button, Form, Input, message, Select, Switch } from 'antd';
 
 interface IAddDeviceFormProps {
   formRefCreateDevice: React.MutableRefObject<null>;
@@ -12,18 +13,33 @@ interface IAddDeviceFormProps {
 
 export const AddDeviceForm = ({ formRefCreateDevice, onCloseModal, initialValue }: IAddDeviceFormProps) => {
   const [form] = Form.useForm();
+  const [loading, setLoading] = useState<boolean>(false);
   const onClickCancel = () => {
     form.resetFields();
     onCloseModal();
   };
-  const onSubmit = (value: any) => {
-    const newDevice = {
-      name: value.name,
-      triggerAsyncId: value.trigger_type,
-      location: value.location,
-      type_device: value.type_device,
-      active: value.active,
-    };
+  const onSubmit = async (value: any) => {
+    try {
+      setLoading(true);
+      const newDevice = {
+        name: value.name,
+        type_trigger: value.type_trigger,
+        location: value.location,
+        type_device: value.type_device,
+        value: value ? value.active : false,
+        feed: value?.feeds,
+      };
+      console.log(newDevice);
+      const { data: dataNew, error } = await DeviceServices.createDevice(newDevice);
+      if (error) {
+        message.error(error.message);
+        setLoading(false);
+        return;
+      }
+
+      setLoading(false);
+    } finally {
+    }
   };
   return (
     <Form
@@ -31,15 +47,16 @@ export const AddDeviceForm = ({ formRefCreateDevice, onCloseModal, initialValue 
       form={form}
       ref={formRefCreateDevice}
       onFinish={onSubmit}
-      initialValues={
-        initialValue ?? {
-          name: initialValue.name,
-          triggerAsyncId: initialValue.trigger_type,
-          location: initialValue.location,
-          type_device: initialValue.type_device,
-          active: initialValue.active,
-        }
-      }
+      // initialValues={
+      //   initialValue ?? {
+      //     name: initialValue?.name,
+      //     triggerAsyncId: initialValue?.type_trigger,
+      //     location: initialValue?.location,
+      //     type_device: initialValue?.type_device,
+      //     active: initialValue?.active,
+      //     feeds: initialValue?.feed,
+      //   }
+      // }
     >
       <div className="grid lg:grid-cols-2 grid-cols-1 lg:gap-[16px] gap-[0px]">
         <Form.Item
@@ -71,7 +88,7 @@ export const AddDeviceForm = ({ formRefCreateDevice, onCloseModal, initialValue 
             },
           ]}
           label="Trigger type"
-          name="trigger_type"
+          name="type_trigger"
         >
           <Select allowClear placeholder="Choose type" options={selectTypeTrigger} />
         </Form.Item>
@@ -110,7 +127,7 @@ export const AddDeviceForm = ({ formRefCreateDevice, onCloseModal, initialValue 
           <Button onClick={onClickCancel}>Cancel</Button>
         </Form.Item>
         <Form.Item name="submit">
-          <Button type="primary" htmlType="submit">
+          <Button loading={loading} type="primary" htmlType="submit" disabled={loading}>
             Submit
           </Button>
         </Form.Item>
