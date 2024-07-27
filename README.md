@@ -64,6 +64,7 @@ client.on('connect', () => {
 
 // https://github.com/mqttjs/MQTT.js#event-message
 client.on('message', (topic, payload) => {
-  console.log(
-    'Received Message: ' + payload
+  console.log('Received Message: ' + payload);
+});
 //npm i @types/json-bigint
+```

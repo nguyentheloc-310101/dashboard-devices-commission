@@ -67,13 +67,11 @@ export function SideNav(): React.JSX.Element {
         >
           <Box sx={{ flex: '1 1 auto' }}>
             <Typography color="var(--mui-palette-neutral-400)" variant="body2">
-              Location
+              Welcome
             </Typography>
-            <Typography color="inherit" variant="subtitle1">
-              Living room
-            </Typography>
+            <Typography color="inherit" variant="subtitle1"></Typography>
           </Box>
-          <CaretUpDownIcon />
+          {/* <CaretUpDownIcon /> */}
         </Box>
       </Stack>
       <Divider sx={{ borderColor: 'var(--mui-palette-neutral-700)' }} />

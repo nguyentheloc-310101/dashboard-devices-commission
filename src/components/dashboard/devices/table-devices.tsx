@@ -5,12 +5,14 @@ import { DeviceServices } from '@/services';
 import { message, Space, Switch, Table, Tag } from 'antd';
 import type { TableProps } from 'antd';
 
+import { publishData } from '@/lib/mqtt/mqtt-client';
+
 interface DataType {
   key: string;
   name: string;
   value?: string | number | null;
   type_device: string;
-  feeds: string;
+  feed: string;
   trigger_type: string;
   location: string;
   active?: boolean;
@@ -56,9 +58,27 @@ const columns: TableProps<DataType>['columns'] = [
     render: (active) => <span>{active ? 'Yes' : 'No'}</span>,
   },
   {
-    title: 'Action',
+    title: 'Active',
     key: 'action',
-    render: (_, record) => <Switch />,
+    render: (_, record) => (
+      <>
+        {record.type_device == 'ELECTRICAL' ? (
+          <Switch
+            onClick={(e) => {
+              publishData(
+                `${record.feed}`,
+                JSON.stringify({
+                  trigger: `${record.name} is turn ${e == true ? 'ON' : 'OFF'}`,
+                  value: e == true ? 1 : 0,
+                })
+              );
+            }}
+          />
+        ) : (
+          'SENSOR'
+        )}
+      </>
+    ),
   },
 ];
 
@@ -69,9 +89,15 @@ export const TableDevices = () => {
       const { data, error } = await DeviceServices.getDevices(null);
       if (error) {
         message.error(error.message);
+        return;
       }
-      console.log(data);
-      setDataDevices(data as any);
+      const formatKey = data?.map((item, index) => {
+        return {
+          key: index + 1,
+          ...item,
+        };
+      });
+      setDataDevices(formatKey as any);
     };
     fetchData();
   }, []);

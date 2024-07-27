@@ -37,6 +37,7 @@
     "antd": "^5.19.3",
     "apexcharts": "3.49.2",
     "dayjs": "1.11.11",
+    "mqtt": "^5.9.0",
     "next": "14.2.4",
     "react": "18.3.1",
     "react-apexcharts": "1.4.1",
